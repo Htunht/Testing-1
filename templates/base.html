@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Project Hub{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='tailwind.css') }}"
+    />
+  </head>
+  <body class="bg-gray-50 flex flex-col min-h-screen font-sans text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex">
+            <!-- Updated: Points to 'index' to match the renamed route in app.py -->
+            <a
+              href="{{ url_for('index') }}"
+              class="flex-shrink-0 flex items-center font-bold text-xl text-indigo-600"
+            >
+              🚀 ProjectHub
+            </a>
+          </div>
+          <div class="flex items-center space-x-4">
+            {% if current_user.is_authenticated %} {% if current_user.is_admin
+            %}
+            <a
+              href="{{ url_for('admin_dashboard') }}"
+              class="text-gray-600 hover:text-indigo-600 font-medium"
+              >Admin Panel</a
+            >
+            {% endif %}
+            <a
+              href="{{ url_for('dashboard') }}"
+              class="text-gray-600 hover:text-indigo-600 font-medium"
+              >My Projects</a
+            >
+            <span class="text-sm text-gray-400">|</span>
+            <span class="text-sm font-semibold text-gray-700"
+              >{{ current_user.username }}</span
+            >
+            <a
+              href="{{ url_for('logout') }}"
+              class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm transition"
+              >Logout</a
+            >
+            {% else %}
+            <a
+              href="{{ url_for('login') }}"
+              class="text-gray-600 hover:text-indigo-600 font-medium"
+              >Login</a
+            >
+            <a
+              href="{{ url_for('register') }}"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition"
+              >Register</a
+            >
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="p-4 mb-4 rounded-md shadow-sm {% if category == 'error' %}bg-red-100 text-red-700 border-l-4 border-red-500{% else %}bg-green-100 text-green-700 border-l-4 border-green-500{% endif %}"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+      <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <p class="text-center text-gray-500 text-sm">
+          &copy; {{ now.year }} Project Hub. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

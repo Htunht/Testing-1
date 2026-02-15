@@ -1,0 +1,19 @@
+/* Since we are using the Tailwind CDN for this simple setup,
+   this file is reserved for custom overrides or additional styles 
+   not covered by utility classes.
+*/
+
+/* Example custom scrollbar override */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
